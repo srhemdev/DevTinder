@@ -8,7 +8,7 @@
 
 const moongoose = require("mongoose");
 
-const connectionString = "mongodb+srv://piks1987_db_user:VZlL2lGnsXMHQ3XA@cluster0.4y50a0i.mongodb.net/devTinder"
+const connectionString = "{{CREDENTIALS}}";
 
 const connectDB = async () => {
   await moongoose.connect(connectionString);
