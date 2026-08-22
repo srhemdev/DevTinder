@@ -10,16 +10,12 @@ const User = require("./models/user");
 
 const port = 3000;
 
+app.use(express.json()); // Middleware to parse JSON request bodies
+
 app.post("/signup", async (req, res) => {
-  const userObj = {
-    firstName: "Virat",
-    lastName: "Kohli",
-    emailId: "virat1988@gmail.com",
-    password: "123457",
-  }
 
   // Creating a new instance of the User model with the userObj data
-  const user = new User(userObj);
+  const user = new User(req.body);
   try {
     await user.save();
     res.send("User added successfully!")
@@ -28,6 +24,69 @@ app.post("/signup", async (req, res) => {
     res.status(500).send("Error saving user to the database", error.message);
   }
 })
+
+app.get("/user", async (req, res) => {
+  const email = req.body.emailId; // Assuming the email is sent in the request body
+  try {
+    const user = await User.findOne({ emailId: email });
+    if (!user) {
+      return res.status(404).send("User not found");
+    } else {
+      res.send(user);
+    }
+  } catch (error) {
+    console.error("Error fetching user from the database", error);
+    res.status(500).send("Error fetching user from the database", error.message);
+  }
+});
+
+app.get("/feed", async (req, res) => {
+  try {
+    const users = await User.find({});
+    if (users.length === 0) {
+      return res.status(404).send("Users not found");
+    } else {
+      res.send(users);
+    }
+  } catch (error) {
+    console.error("Error fetching users from the database", error);
+    res.status(500).send("Error fetching users from the database", error.message);
+  }
+});
+
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId; // Assuming the user ID is sent in the request body
+  try {
+    const user = await User.findByIdAndDelete(userId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    } else {
+      res.send("User deleted successfully!");
+    }
+  } catch (error) {
+    console.error("Error deleting user from the database", error);
+    res.status(500).send("Error deleting user from the database", error.message);
+  }
+});
+
+app.patch("/user", async (req, res) => {
+  const userId = req.body.userId; // Assuming the user ID is sent in the request body
+  const updateData = req.body; // Assuming the update data is sent in the request body
+  try {
+    const user = await User.findByIdAndUpdate(userId, updateData, {
+      returnDocument: "after", // Return the updated document
+      runValidators: true, // Run schema validators on the update
+    });
+    if (!user) {
+      return res.status(404).send("User not found");
+    } else {
+      res.send("User updated successfully!");
+    }
+  } catch (error) {
+    console.error("Error updating user in the database", error);
+    res.status(500).send("Error updating user in the database" + error.message);
+  }
+});
 
 connectDB().then(() => {
   console.log("Connected to MongoDB database");
