@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator"); // Importing the validator library for email validation
+const jwt = require("jsonwebtoken"); // Importing the jsonwebtoken library for JWT token generation
+const bcrypt = require("bcrypt"); // Importing the bcrypt library for password hashing
 
 const userSchema = mongoose.Schema({
   firstName: {
@@ -63,6 +65,19 @@ const userSchema = mongoose.Schema({
   timestamps: true, // Automatically adds createdAt and updatedAt fields
 }
 );
+
+// Method to generate JWT token for the user
+userSchema.methods.getJWT = async function () {
+  const user = this;
+  const token = await jwt.sign({ _id: this._id }, "DEV@Tinder$789", { expiresIn: "1d" }); // Replace "your_secret_key" with  
+  return token;
+}
+
+userSchema.methods.validatePassword = async function (passwordInputByUser) {
+  const user = this;
+  const isPasswordValid = await bcrypt.compare(passwordInputByUser, user.password);
+  return isPasswordValid;
+}
 
 const User = mongoose.model("User", userSchema);
 
