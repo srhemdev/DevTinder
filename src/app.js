@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser"); // Importing the cookie-parser li
 const { userAuth } = require("./middlewares/auth"); // Importing the userAuth middleware for authentication
 const authRouter = require("./routes/auth"); // Importing the authRouter for authentication routes
 const profileRouter = require("./routes/profile"); // Importing the profileRouter for profile routes  
-const requestsRouter = require("./routes/requests"); // Importing the requestsRouter for requests routes
+const requestRouter = require("./routes/request"); // Importing the requestsRouter for requests routes
 const userRouter = require("./routes/user");
 
 const app = express();
@@ -19,7 +19,7 @@ app.use(cookieParser()); // Middleware to parse cookies from incoming requests
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
-app.use("/", requestsRouter);
+app.use("/", requestRouter);
 app.use("/", userRouter);
 
 

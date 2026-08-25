@@ -24,7 +24,8 @@ const userAuth = async (req, res, next) => {
       throw new Error("User not found");
     }
     req.user = user; // Attach the user object to the request for further use in the route handler
-    next(); // move to request handler  
+    console.log(next, "inside next")
+    return next(); // move to request handler  
   } catch (error) {
     console.error("Error during authentication", error);
     res.status(401).send("ERROR" + error.message);
