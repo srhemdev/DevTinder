@@ -20,6 +20,12 @@ const connectionRequestSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// compound index - combine and use on mutlipe fields
+connectionRequestSchema.index({
+  fromUserId: 1,
+  toUserId: 1
+})
+
 connectionRequestSchema.pre("save", async function (next) {
   const connectionRequest = this;
   if (connectionRequest.fromUserId.equals(connectionRequest.toUserId)) {
