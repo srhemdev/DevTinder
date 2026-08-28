@@ -12,25 +12,26 @@ const userAuth = async (req, res, next) => {
    * @returns {void}
    */
   try {
-    const token = req.cookies.token;
+    const token = req.cookies?.token;
+
+    if (!token) {
+      return res.status(401).send("Token is missing");
+    }
 
     const decodedObject = jwt.verify(token, "DEV@Tinder$789"); // Verify the token
     const { _id } = decodedObject; // Get the user ID from the decoded token
     const user = await User.findById(_id);
-    if (!token) {
-      throw new Error("Token is not valid");
-    }
+
     if (!user) {
-      throw new Error("User not found");
+      return res.status(401).send("User not found");
     }
+
     req.user = user; // Attach the user object to the request for further use in the route handler
-    console.log(next, "inside next")
-    return next(); // move to request handler  
+    return next(); // move to request handler
   } catch (error) {
     console.error("Error during authentication", error);
-    res.status(401).send("ERROR" + error.message);
+    return res.status(401).send("ERROR: " + error.message);
   }
-
 };
 
 module.exports = {

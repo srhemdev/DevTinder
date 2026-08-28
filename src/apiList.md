@@ -23,3 +23,9 @@ GET /user/feed - Gets you the profiles of other users
 
 
 Status: ignore, interested, accepted, rejected
+
+/feed?page=1&limit=10 => 1-20
+
+/feed?page=2&limit=10 => 11-20
+
+/feed?page=3&limit=10 => 21-30
