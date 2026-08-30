@@ -90,7 +90,10 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
     }).populate("fromUserId", [
       "firstName",
       "lastName",
-      "photoUrl"
+      "photoUrl",
+      "about",
+      "age",
+      "gender"
     ]);
     /**
      * populate("fromUserId", "firstName lastName");
@@ -121,10 +124,18 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       ],
     }).populate("fromUserId", [
       "firstName",
-      "lastName"
+      "lastName",
+      "photoUrl",
+      "age",
+      "gender",
+      "about"
     ]).populate("toUserId", [
       "firstName",
-      "lastName"
+      "lastName",
+      "photoUrl",
+      "age",
+      "gender",
+      "about"
     ])
     // Return connections to logged in user
     const data = connectionRequests.map((row) => {
