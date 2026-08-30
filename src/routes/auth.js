@@ -38,7 +38,7 @@ authRouter.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ emailId });
     if (!user) {
-      return res.status(404).send("Invalid credentials");
+      return res.status(401).send("Invalid credentials");
     }
 
     // Compare the provided password with the hashed password in the database

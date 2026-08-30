@@ -15,7 +15,7 @@ const userAuth = async (req, res, next) => {
     const token = req.cookies?.token;
 
     if (!token) {
-      return res.status(401).send("Token is missing");
+      return res.status(401).send("Please login");
     }
 
     const decodedObject = jwt.verify(token, "DEV@Tinder$789"); // Verify the token
