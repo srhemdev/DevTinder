@@ -1,3 +1,4 @@
+import 'dotenv/config';
 /**
  * Mongoose to connect to MongoDB database
  * Mongoose is an ODM (Object Data Modeling) library for MongoDB and Node.js
