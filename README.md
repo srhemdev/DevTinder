@@ -1,0 +1,5 @@
+- use npm install -g pm2 -- it is a process mananager which keeps ur server running so that you dont have to keep the terminal open forever
+- whitelisting ip (:3000) mongodb server on EC2 instance
+- pm2 start npm -- start
+- pm2 logs
+- pm2 list, pm2 flush <name>, pm2 stop <name>, pm2 delete <name>
