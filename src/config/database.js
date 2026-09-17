@@ -8,7 +8,7 @@
 
 const moongoose = require("mongoose");
 
-const connectionString = "{{CREDENTIALS}}";
+const connectionString = process.env.DATABASE_URL;
 
 const connectDB = async () => {
   await moongoose.connect(connectionString);
