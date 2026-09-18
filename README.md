@@ -3,3 +3,39 @@
 - pm2 start npm -- start
 - pm2 logs
 - pm2 list, pm2 flush <name>, pm2 stop <name>, pm2 delete <name>
+- pm2 start npm --name "devtiner-backend" --start
+
+- Front end: http://3.131.93.54
+- BE: http://3.131.93.54:3000/feed
+
+# add nginx config
+
+config nginx - /etc/nginx/sites-available/default
+
+restart nginx
+sudo systemctl restart nginx
+
+# Proxy /api requests to Node.js on port 3000
+location /api/ {
+    proxy_pass http://localhost:3000/; # Points to your Node app
+    proxy_http_version 1.1;
+    
+    # Necessary headers to preserve client details
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    # WebSocket support (Optional, but highly recommended)
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_cache_bypass $http_upgrade;
+}
+
+- Modify the front end codebase base url from localhost:3000 to  /api
+
+# Adding a custom domain name
+- purchased domain name from godaddy
+- signup on cloudflare & add a new domain name
+- change the nameservers on godaddy and point it to cloudflare
+- wait for sometime till your name servers are updated.
