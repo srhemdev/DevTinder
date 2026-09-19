@@ -4,6 +4,8 @@ const { userAuth } = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 
+const { run } = require("../utils/sendEmail");
+
 requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
   try {
     const fromUserId = req.user._id;
@@ -49,6 +51,7 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res)
     });
 
     const data = await connectionRequest.save();
+    await run();
     res.json({
       message: req.user.firstName + " is " + status + " in " + toUser.firstName,
       data

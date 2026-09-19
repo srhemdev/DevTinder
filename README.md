@@ -39,3 +39,20 @@ location /api/ {
 - signup on cloudflare & add a new domain name
 - change the nameservers on godaddy and point it to cloudflare
 - wait for sometime till your name servers are updated.
+- DNS -> Update A record on CloudFlare
+- Enable SSL -> use Flexible by default
+
+# Sending Emails vias SES
+- Create an IAM user
+- Give Access to AmazonSESFullAccess
+- Amazon SES: Create an Identity
+- Verify your domain
+- Verify an email address
+- Install SDK
+- Amazon SES secret access key
+- Set up SesClient
+- Access Credentials should be created in IAM under Security
+- Add the credentials to the env file
+- Write code for SESClient
+- Write code for Sending email address
+- Make the email dynamic by passing more params to the run function
